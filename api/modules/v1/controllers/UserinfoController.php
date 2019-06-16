@@ -9,6 +9,22 @@ class UserinfoController extends BaseController
 {
     public $modelClass = 'api\models\Userinfo';
 
+    /**
+     * @SWG\Options(
+     *	path = "/users",
+     *	tags = {"user"},
+     *	operationId = "userOptions",
+     *	summary = "options",
+     *	produces = {"application/json"},
+     *	consumes = {"application/json"},
+     *	@SWG\Response(
+     *     response = 200,
+     *     description = "success",
+     *     @SWG\Header(header="Allow", type="GET, POST, HEAD, OPTIONS"),
+     *     @SWG\Header(header="Content-Type", type="application/json; charset=UTF-8")
+     *  )
+     *)
+     */
     public function actionLogin(){
         $post_data = Yii::$app->request->post();
         $username = $post_data['username'];

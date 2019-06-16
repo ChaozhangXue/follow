@@ -84,63 +84,17 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'pluralize' => false,
-                    'controller' => ['v1/client'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/client-backup'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/client-contact'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/client-price'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/exhibition'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/sample'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/sample-price'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/suggestion'],
+                    'controller' => [
+                        'v1/client',
+                        'v1/client-backup',
+                        'v1/client-contact',
+                        'v1/client-price',
+                        'v1/exhibition',
+                        'v1/sample',
+                        'v1/sample-price',
+                        'v1/suggestion',
+                        'v1/process',
+                    ],
                     'extraPatterns' => [
                         'POST  search' => 'search',//通过这种方式新加搜索
                     ]
