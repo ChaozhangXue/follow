@@ -8,9 +8,18 @@ use yii\base\Controller;
  */
 class FileController extends Controller
 {
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
     public function actionUpload()
     {
+        $upload_path = '/var/www/html/follow/backend/web/upload/' . date('Ymd');
         $url = 'http://test1.delcache.com/upload/';
+        if(!file_exists($upload_path)){
+            mkdir($upload_path, 0777,true);
+        }
         if (empty($_FILES)) {
             return true;
         } else {
@@ -19,11 +28,11 @@ class FileController extends Controller
             } else {
                 $name = time() . rand(0,9999);
 
-                if (file_exists("upload/" . $name)) {
+                if (file_exists($upload_path .'/' . $name)) {
                     $this->success($url . $name);
                 } else {
                     move_uploaded_file($_FILES["file"]["tmp_name"],
-                        '/var/www/html/follow/backend/web/upload/' . $name);
+                        $upload_path .'/' . $name);
                     $this->success($url . $name);
                 }
             }
@@ -47,4 +56,5 @@ class FileController extends Controller
         ]);
     }
 }
+
 
