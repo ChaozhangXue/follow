@@ -3,6 +3,7 @@
 namespace api\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "sample".
@@ -23,6 +24,8 @@ use Yii;
  * @property string $other_num 其他编号
  * @property string $xiuhua_card_num 绣花卡号
  * @property int $source 客户来源 1：平绣 2水溶绣 3金片绣 4激光绣 5盘带绣 6其他工艺
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Sample extends \yii\db\ActiveRecord
 {
@@ -41,7 +44,21 @@ class Sample extends \yii\db\ActiveRecord
     {
         return [
             [['source'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
             [['title', 'pic', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'dibu_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                //'value' => new Expression('NOW()'),
+                'value'=>date('Y-m-d H:i:s'),
+            ],
         ];
     }
 
@@ -67,6 +84,8 @@ class Sample extends \yii\db\ActiveRecord
             'other_num' => 'Other Num',
             'xiuhua_card_num' => 'Xiuhua Card Num',
             'source' => 'Source',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 }

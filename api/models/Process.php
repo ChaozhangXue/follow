@@ -7,11 +7,12 @@ use Yii;
 /**
  * This is the model class for table "process".
  *
- * @property int $id
- * @property string $follow_month 跟进月份
- * @property string $backup 备注信息
- * @property string $follow_time 跟进时间
- * @property string $follow_people 跟进角色
+ * @property int $id 自增长的process id
+ * @property string $client_name 客户公司
+ * @property int $is_send_sample 是否寄样 1： 否  2 是
+ * @property string $send_sample_date 寄样时间
+ * @property string $sender_name 寄样人
+ * @property string $make_time 建档时间
  */
 class Process extends \yii\db\ActiveRecord
 {
@@ -29,9 +30,9 @@ class Process extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['follow_month', 'follow_time'], 'safe'],
-            [['backup'], 'string'],
-            [['follow_people'], 'string', 'max' => 50],
+            [['is_send_sample'], 'integer'],
+            [['send_sample_date', 'make_time'], 'safe'],
+            [['client_name', 'sender_name'], 'string', 'max' => 50],
         ];
     }
 
@@ -42,10 +43,11 @@ class Process extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'follow_month' => 'Follow Month',
-            'backup' => 'Backup',
-            'follow_time' => 'Follow Time',
-            'follow_people' => 'Follow People',
+            'client_name' => 'Client Name',
+            'is_send_sample' => 'Is Send Sample',
+            'send_sample_date' => 'Send Sample Date',
+            'sender_name' => 'Sender Name',
+            'make_time' => 'Make Time',
         ];
     }
 }
