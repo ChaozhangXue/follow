@@ -41,7 +41,7 @@ class UserinfoController extends BaseController
             $user->token = $token;
             $user->save();
         } else {
-            return $this->error('用户不存在');
+            return $this->error('用户不存在',404);
         }
         return $this->success($user->toArray());
     }

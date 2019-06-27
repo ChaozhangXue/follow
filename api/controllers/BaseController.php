@@ -117,22 +117,25 @@ class BaseController extends ActiveController
 //        );
 //    }
 
-    public function success($data = [], $msg = 'success')
+    public function success($data = [], $msg = 'success', $code = 200)
     {
-        return $ret = [
-            'r' => 0,
-            'msg' => $msg,
-            'data' => $data,
-        ];
+        $response = \Yii::$app->response;
+        $response->setStatusCode($code, $msg);
+        return $data;
     }
 
-    public function error($msg = 'failed', $code = 1, $data = [])
+    public function error($msg = 'failed', $code = 400, $data = [])
     {
-        return $ret = [
-            'r' => $code,
-            'msg' => $msg,
-            'data' => $data,
-        ];
+        $response = \Yii::$app->response;
+        $response->setStatusCode($code, $msg);
+        return $data;
+//        print_r(\Yii::$app->response);die;
+//        $response->data = [
+//        'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode()< 300)? 0:1,
+//        'code' => $response->getStatusCode(),
+//        'msg' => $response->statusText,
+//        'data' => $response->data,
+//    ];
     }
 
     //todo 页数可配

@@ -44,33 +44,25 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        //修改返回值  如果是gii的话 需要注释这一段
-//        'response' => [
-//            'class' => 'yii\web\Response',
-//            'on beforeSend' => function ($event) {
-//                $response = $event->sender;
-//                $response->data = [
-//                    'r' => $response->isSuccessful ?? 1,
-//                    'code' => $response->getStatusCode(),
-//                    'msg' => $response->statusText,
-//                    'data' => $response->data,
-//                ];
-//                $response->statusCode = 200;
-//            },
-//        ],
+//        //修改返回值  如果是gii的话 需要注释这一段
+        'response' => [
+            'class' => 'yii\web\Response',
+            'on beforeSend' => function ($event) {
+                $response = $event->sender;
+                $response->data = [
+                    'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode()< 300)? 0:1,
+                    'code' => $response->getStatusCode(),
+                    'msg' => $response->statusText,
+                    'data' => $response->data,
+                ];
+                $response->statusCode = 200;
+            },
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' =>true,
             'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false,
-                    'controller' => ['v1/goods'],
-                    'extraPatterns' => [
-                        'POST  search' => 'search',//通过这种方式新加搜索
-                    ]
-                ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'pluralize' => false,
@@ -99,6 +91,18 @@ return [
                         'POST  search' => 'search',//通过这种方式新加搜索
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'pluralize' => false,
+                    'controller' => [
+                        'v1/client-data',
+                        'v1/sample-data',
+                    ],
+                    'extraPatterns' => [
+                        'GET  statistic/<date>' => 'statistic',//通过这种方式新加搜索
+                    ]
+                ],
+
             ]
         ],
     ],
