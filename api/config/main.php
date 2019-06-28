@@ -45,19 +45,19 @@ return [
             'errorAction' => 'site/error',
         ],
 //        //修改返回值  如果是gii的话 需要注释这一段
-//        'response' => [
-//            'class' => 'yii\web\Response',
-//            'on beforeSend' => function ($event) {
-//                $response = $event->sender;
-//                $response->data = [
-//                    'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode()< 300)? 0:1,
-//                    'code' => $response->getStatusCode(),
-//                    'msg' => $response->statusText,
-//                    'data' => $response->data,
-//                ];
-//                $response->statusCode = 200;
-//            },
-//        ],
+        'response' => [
+            'class' => 'yii\web\Response',
+            'on beforeSend' => function ($event) {
+                $response = $event->sender;
+                $response->data = [
+                    'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode()< 300)? 0:1,
+                    'code' => $response->getStatusCode(),
+                    'msg' => $response->statusText,
+                    'data' => $response->data,
+                ];
+                $response->statusCode = 200;
+            },
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
