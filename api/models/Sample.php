@@ -74,4 +74,24 @@ class Sample extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function extraFields() {
+        return [
+            'goods'=>function(){
+                return SamplePrice::find()->where(['sample_id'=> $this->id])->asArray()->one();
+            },
+        ];
+    }
+
+//    public function extraFields()
+//    {
+//        return ['price'];
+//    }
+//
+//    public function getPrice()
+//    {
+////同样第一个参数指定关联的子表模型类名
+////
+//        return $this->hasOne(SamplePrice::className(), ['id' => 'sample_id']);
+//    }
 }
