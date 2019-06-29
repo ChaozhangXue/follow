@@ -28,9 +28,9 @@ class UserinfoController extends BaseController
     public function actionLogin(){
         //todo 小程序登陆是用的工号和密码
         $post_data = Yii::$app->request->post();
-        $user_ext = $post_data['user_ext']?? '';
-        $username = $post_data['username']?? '';
-        $password = $post_data['password']?? '';
+        $user_ext = isset($post_data['user_ext'])? $post_data['user_ext']:'';
+        $username = isset($post_data['username'])? $post_data['username']:'';
+        $password = isset($post_data['password'])? $post_data['password']:'';
 
         if (empty($username) || empty($user_ext)) {
             return $this->error('用户名密码为空');
