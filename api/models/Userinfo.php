@@ -45,6 +45,7 @@ class Userinfo extends \yii\db\ActiveRecord
             [['username', 'password', 'department', 'phone', 'maker', 'token'], 'string', 'max' => 50],
             [['user_auth', 'function_auth'], 'string', 'max' => 255],
             [['username'], 'unique'],
+            [['user_ext'], 'unique'],
         ];
     }
 
