@@ -3,7 +3,6 @@
 namespace api\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "sample".
@@ -15,7 +14,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $width 商品门幅
  * @property string $kilo 商品克重（克）
  * @property string $minimum 最低起定（米）
- * @property string $xiuhua_suplier 绣花供应
+ * @property string $xiuhua_suplier 绣花供应 暂时是字符串 1.文兴款 2：豪鼎 3.怡之鸣
  * @property string $dibu_suplier 底布供应
  * @property string $design_time 打样时间
  * @property string $dahuo_time 大货时间
@@ -46,19 +45,6 @@ class Sample extends \yii\db\ActiveRecord
             [['source'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'pic', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'dibu_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
-        ];
-    }
-
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                //'value' => new Expression('NOW()'),
-                'value'=>date('Y-m-d H:i:s'),
-            ],
         ];
     }
 
