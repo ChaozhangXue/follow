@@ -7,5 +7,5 @@ use api\controllers\BaseController;
 
 class SampleController extends BaseController
 {
-    public $modelClass = 'api\models\sample';
+    public $modelClass = 'api\models\Sample';
 }

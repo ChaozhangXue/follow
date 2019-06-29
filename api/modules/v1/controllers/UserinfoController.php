@@ -9,6 +9,11 @@ class UserinfoController extends BaseController
 {
     public $modelClass = 'api\models\Userinfo';
 
+    public function actionResetPassword(){
+        $old_pwd = Yii::$app->request->post('old_pwd');
+        $new_pwd = Yii::$app->request->post('new_pwd');
+    }
+
     /**
      * @SWG\Options(
      *	path = "/users",
