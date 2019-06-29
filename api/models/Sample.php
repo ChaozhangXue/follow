@@ -77,7 +77,7 @@ class Sample extends \yii\db\ActiveRecord
 
     public function extraFields() {
         return [
-            'goods'=>function(){
+            'price'=>function(){
                 return SamplePrice::find()->where(['sample_id'=> $this->id])->asArray()->one();
             },
         ];
