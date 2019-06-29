@@ -32,10 +32,6 @@ class UserinfoController extends BaseController
         $username = isset($post_data['username'])? $post_data['username']:'';
         $password = isset($post_data['password'])? $post_data['password']:'';
 
-        if (empty($username) || empty($user_ext)) {
-            return $this->error('用户名密码为空');
-        }
-
         $model = $this->modelClass;
         if(!empty($username)){
 
@@ -45,7 +41,7 @@ class UserinfoController extends BaseController
                 $user->token = $token;
                 $user->save();
             } else {
-                return $this->error('用户不存在',404);
+                return $this->error('登陆失败',404);
             }
         }
 
@@ -58,7 +54,7 @@ class UserinfoController extends BaseController
                 $user->token = $token;
                 $user->save();
             } else {
-                return $this->error('用户不存在',404);
+                return $this->error('登陆失败',404);
             }
         }
 
