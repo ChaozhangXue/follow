@@ -15,9 +15,9 @@ use Yii;
  * @property string $usd usd
  * @property string $price_date 报价日期
  * @property string $backup 备注信息
- * @property int $packaged 是否包装
- * @property int $is_tax 是否含税
- * @property int $is_logistics 是否物流
+ * @property int $packaged 是否包装（1否 2是）
+ * @property int $is_tax 是否含税(1 否 2 是)
+ * @property int $is_logistics 是否物流（1否 2 是）
  */
 class ClientPrice extends \yii\db\ActiveRecord
 {
@@ -36,8 +36,9 @@ class ClientPrice extends \yii\db\ActiveRecord
     {
         return [
             [['client_id', 'packaged', 'is_tax', 'is_logistics'], 'integer'],
+            [['pic'], 'string'],
             [['price_date'], 'safe'],
-            [['title', 'pic', 'rmb', 'usd', 'backup'], 'string', 'max' => 50],
+            [['title', 'rmb', 'usd', 'backup'], 'string', 'max' => 50],
         ];
     }
 

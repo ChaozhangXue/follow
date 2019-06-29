@@ -37,8 +37,8 @@ class Exhibition extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'delivery_time'], 'safe'],
-            [['backup'], 'string'],
-            [['title', 'city', 'address', 'zhanguan_no', 'zhanwei_no', 'contact_people', 'phone', 'pic'], 'string', 'max' => 50],
+            [['pic', 'backup'], 'string'],
+            [['title', 'city', 'address', 'zhanguan_no', 'zhanwei_no', 'contact_people', 'phone'], 'string', 'max' => 50],
         ];
     }
 

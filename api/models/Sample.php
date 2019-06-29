@@ -42,9 +42,10 @@ class Sample extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['pic'], 'string'],
             [['source'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title', 'pic', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'dibu_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
+            [['title', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'dibu_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
         ];
     }
 
@@ -74,24 +75,4 @@ class Sample extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
-
-    public function extraFields() {
-        return [
-            'price'=>function(){
-                return SamplePrice::find()->where(['sample_id'=> $this->id])->asArray()->one();
-            },
-        ];
-    }
-
-//    public function extraFields()
-//    {
-//        return ['price'];
-//    }
-//
-//    public function getPrice()
-//    {
-////同样第一个参数指定关联的子表模型类名
-////
-//        return $this->hasOne(SamplePrice::className(), ['id' => 'sample_id']);
-//    }
 }
