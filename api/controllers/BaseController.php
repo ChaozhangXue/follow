@@ -167,6 +167,25 @@ class BaseController extends ActiveController
         $models = $model::find()->where($search)->all();
 
         return $models;
+    }
 
+    /**
+     * search 模糊查询
+     * @return null
+     */
+    public function actionSearchLike(){
+        $keys = Yii::$app->request->post('keys');
+        $value = Yii::$app->request->post('value');
+
+        $keys_ary = explode(',', $keys);
+        $where = ['or'];
+        foreach ($keys_ary as $val){
+            $where[] = ['like', $val, $value];
+        }
+        //todo 这里加个分页
+        $model = $this->modelClass;
+        $models = $model::find()->where($where)->all();
+
+        return $models;
     }
 }
