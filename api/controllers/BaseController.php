@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers;
 
+use api\models\SamplePrice;
 use api\models\Userinfo;
 use Yii;
 use yii\db\Exception;
@@ -12,7 +14,8 @@ use yii\web\Response;
  */
 class BaseController extends ActiveController
 {
-    public function behaviors() {
+    public function behaviors()
+    {
 //        if($this->module->requestedAction->id)
 //        $action = $this->module->module->controller->action->id;
 //        if(in_array($action,['search'])){
@@ -41,26 +44,26 @@ class BaseController extends ActiveController
     {
 //        $token = Yii::$app->request->getHeaders()['token'] ?? '';
 //        if(empty($token)){
-            //{
-            //    "name": "Exception",
-            //    "message": "权限认证失败",
-            //    "code": 401,
-            //    "type": "Exception",
-            //    "file": "D:\\xampp\\htdocs\\follow\\api\\controllers\\BaseController.php",
-            //    "line": 31,
-            //    "stack-trace": [
-            //        "#0 [internal function]: api\\controllers\\BaseController->checkAccess('index')",
-            //        "#1 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\rest\\IndexAction.php(79): call_user_func(Array, 'index')",
-            //        "#2 [internal function]: yii\\rest\\IndexAction->run()",
-            //        "#3 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Action.php(94): call_user_func_array(Array, Array)",
-            //        "#4 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Controller.php(157): yii\\base\\Action->runWithParams(Array)",
-            //        "#5 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Module.php(528): yii\\base\\Controller->runAction('index', Array)",
-            //        "#6 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\web\\Application.php(103): yii\\base\\Module->runAction('v1/suggestion/i...', Array)",
-            //        "#7 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Application.php(386): yii\\web\\Application->handleRequest(Object(yii\\web\\Request))",
-            //        "#8 D:\\xampp\\htdocs\\follow\\api\\web\\index.php(17): yii\\base\\Application->run()",
-            //        "#9 {main}"
-            //    ]
-            //}
+        //{
+        //    "name": "Exception",
+        //    "message": "权限认证失败",
+        //    "code": 401,
+        //    "type": "Exception",
+        //    "file": "D:\\xampp\\htdocs\\follow\\api\\controllers\\BaseController.php",
+        //    "line": 31,
+        //    "stack-trace": [
+        //        "#0 [internal function]: api\\controllers\\BaseController->checkAccess('index')",
+        //        "#1 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\rest\\IndexAction.php(79): call_user_func(Array, 'index')",
+        //        "#2 [internal function]: yii\\rest\\IndexAction->run()",
+        //        "#3 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Action.php(94): call_user_func_array(Array, Array)",
+        //        "#4 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Controller.php(157): yii\\base\\Action->runWithParams(Array)",
+        //        "#5 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Module.php(528): yii\\base\\Controller->runAction('index', Array)",
+        //        "#6 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\web\\Application.php(103): yii\\base\\Module->runAction('v1/suggestion/i...', Array)",
+        //        "#7 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Application.php(386): yii\\web\\Application->handleRequest(Object(yii\\web\\Request))",
+        //        "#8 D:\\xampp\\htdocs\\follow\\api\\web\\index.php(17): yii\\base\\Application->run()",
+        //        "#9 {main}"
+        //    ]
+        //}
 //            throw new \Exception('权限认证失败','401');
 //        }
 //        $user = Userinfo::find()->where(['token' => $token])->asArray()->one();
@@ -155,44 +158,120 @@ class BaseController extends ActiveController
      * search 统一用post 参数用post参数
      * @return null
      */
-    public function actionSearch(){
-
+    public function actionSearch()
+    {
         $search = Yii::$app->request->post();
-        if(empty($search)){
-            return null;
+//        if (empty($search)) {
+//            return null;
+//        }
+//        $keys = Yii::$app->request->post('keys');
+//        $value = Yii::$app->request->post('value');
+
+        $pageNum = Yii::$app->request->get('page', '1');
+        $pageSize = Yii::$app->request->get('per-page', '5');
+
+        $sort = Yii::$app->request->get('sort', '');
+        $expand = Yii::$app->request->get('expand', '');
+
+//        $keys_ary = explode(',', $keys);
+//        $where = ['or'];
+//        foreach ($keys_ary as $val) {
+//            $where[] = ['like', $val, $value];
+//        }
+        //分页的逻辑
+        $org_model = $this->modelClass;
+        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($search);
+
+        //排序逻辑
+        if (!empty($sort)) {
+            $sort_by = substr($sort, 0, 1);
+            $sort_val = substr($sort, 1);
+
+            if ($sort_by == ' ') {
+                $by = "$sort_val ASC";
+                $models = $models->orderby($by);
+            } elseif ($sort_by == '-') {
+                $by = "$sort_val DESC";
+                $models = $models->orderby($by);
+
+            }
         }
 
-        $pageNum = Yii::$app->request->post('page', '1');
-        $pageSize = Yii::$app->request->post('per-page', '5');
+        $models = $models->asArray()->all();
 
-        //todo 这里加个分页
-        $model = $this->modelClass;
-        $models = $model::find()->offset(($pageNum-1) * $pageSize)->limit($pageSize)->where($search)->asArray()->all();
+        if($expand == 'price'){
+            foreach ($models as &$model){
+//                print_r($model['id']);die;
+                $model['price'] = SamplePrice::find()->where(['sample_id'=> $model['id']])->asArray()->one();
+            }
+        }
+        $count = $org_model::find()->where($search)->count();
 
-        return $models;
+        return ['items' => $models, '_meta' => ['totalCount'=>$count,'pageCount'=>floor($count/$pageSize),'currentPage'=>$pageNum,'per-page'=> $pageSize]];
+
+//        $search = Yii::$app->request->post();
+//        if (empty($search)) {
+//            return null;
+//        }
+//
+//        $pageNum = Yii::$app->request->post('page', '1');
+//        $pageSize = Yii::$app->request->post('per-page', '5');
+//
+//        //todo 这里加个分页
+//        $model = $this->modelClass;
+//        $models = $model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($search)->asArray()->all();
+//
+//        return $models;
     }
 
     /**
      * search 模糊查询
      * @return null
      */
-    public function actionSearchLike(){
+    public function actionSearchLike()
+    {
         $keys = Yii::$app->request->post('keys');
         $value = Yii::$app->request->post('value');
 
-        $pageNum = Yii::$app->request->post('page', '1');
-        $pageSize = Yii::$app->request->post('per-page', '5');
+        $pageNum = Yii::$app->request->get('page', '1');
+        $pageSize = Yii::$app->request->get('per-page', '5');
+
+        $sort = Yii::$app->request->get('sort', '');
+        $expand = Yii::$app->request->get('expand', '');
 
         $keys_ary = explode(',', $keys);
         $where = ['or'];
-        foreach ($keys_ary as $val){
+        foreach ($keys_ary as $val) {
             $where[] = ['like', $val, $value];
         }
-        //todo 这里加个分页
-        $model = $this->modelClass;
-        $models = $model::find()->offset(($pageNum-1) * $pageSize)->limit($pageSize)->where($where)->asArray()->all();
-        $count = $model::find()->count();
+        //分页的逻辑
+        $org_model = $this->modelClass;
+        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($where);
 
-        return ['data'=>$models,'count'=>$count];
+        //排序逻辑
+        if (!empty($sort)) {
+            $sort_by = substr($sort, 0, 1);
+            $sort_val = substr($sort, 1);
+
+            if ($sort_by == ' ') {
+                $by = "$sort_val ASC";
+                $models = $models->orderby($by);
+            } elseif ($sort_by == '-') {
+                $by = "$sort_val DESC";
+                $models = $models->orderby($by);
+
+            }
+        }
+
+        $models = $models->asArray()->all();
+
+        if($expand == 'price'){
+            foreach ($models as &$model){
+                $model['price'] = SamplePrice::find()->where(['sample_id'=> $model['id']])->asArray()->one();
+            }
+        }
+        $count = $org_model::find()->where($where)->count();
+
+        return ['items' => $models, '_meta' => ['totalCount'=>$count,'pageCount'=>floor($count/$pageSize),'currentPage'=>$pageNum,'per-page'=> $pageSize]];
     }
 }
