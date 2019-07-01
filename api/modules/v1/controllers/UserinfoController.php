@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use api\models\Userinfo;
 use Yii;
 use api\controllers\BaseController;
 
@@ -9,9 +10,22 @@ class UserinfoController extends BaseController
 {
     public $modelClass = 'api\models\Userinfo';
 
-    public function actionResetPassword(){
+    public function actionResetPassword($id){
         $old_pwd = Yii::$app->request->post('old_pwd');
         $new_pwd = Yii::$app->request->post('new_pwd');
+
+        if($old_pwd == $new_pwd){
+            return $this->error('不能修改成和原来一样的密码',400);
+        }
+
+        $user = Userinfo::find()->where(['id' => $id, 'password'=>$old_pwd])->one();
+        if(empty($user)){
+            return $this->error('修改失败',400);
+        }
+        $user->password = $new_pwd;
+        $user->save();
+
+        return $this->success($user->toArray());
     }
 
     /**

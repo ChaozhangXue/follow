@@ -71,6 +71,7 @@ return [
                         'POST  search' => 'search',//通过这种方式新加搜索
                         'POST  login' => 'login',
                         'POST  logout' => 'logout',
+                        'PUT  reset-password/<id>' => 'reset-password',
                     ]
                 ],
                 [

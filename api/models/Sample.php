@@ -3,6 +3,7 @@
 namespace api\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "sample".
@@ -36,6 +37,19 @@ class Sample extends \yii\db\ActiveRecord
         return 'sample';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                //'value' => new Expression('NOW()'),
+                'value'=>date('Y-m-d H:i:s'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -49,6 +63,13 @@ class Sample extends \yii\db\ActiveRecord
         ];
     }
 
+    public function extraFields() {
+        return [
+            'price'=>function(){
+                return SamplePrice::find()->where(['sample_id'=> $this->id])->asArray()->one();
+            },
+        ];
+    }
     /**
      * {@inheritdoc}
      */

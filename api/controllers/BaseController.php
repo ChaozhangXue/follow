@@ -162,9 +162,12 @@ class BaseController extends ActiveController
             return null;
         }
 
+        $pageNum = Yii::$app->request->post('page', '1');
+        $pageSize = Yii::$app->request->post('per-page', '5');
+
         //todo 这里加个分页
         $model = $this->modelClass;
-        $models = $model::find()->where($search)->all();
+        $models = $model::find()->offset(($pageNum-1) * $pageSize)->limit($pageSize)->where($search)->asArray()->all();
 
         return $models;
     }
@@ -177,6 +180,9 @@ class BaseController extends ActiveController
         $keys = Yii::$app->request->post('keys');
         $value = Yii::$app->request->post('value');
 
+        $pageNum = Yii::$app->request->post('page', '1');
+        $pageSize = Yii::$app->request->post('per-page', '5');
+
         $keys_ary = explode(',', $keys);
         $where = ['or'];
         foreach ($keys_ary as $val){
@@ -184,8 +190,9 @@ class BaseController extends ActiveController
         }
         //todo 这里加个分页
         $model = $this->modelClass;
-        $models = $model::find()->where($where)->all();
+        $models = $model::find()->offset(($pageNum-1) * $pageSize)->limit($pageSize)->where($where)->asArray()->all();
+        $count = $model::find()->count();
 
-        return $models;
+        return ['data'=>$models,'count'=>$count];
     }
 }
