@@ -77,7 +77,12 @@ class UserinfoController extends BaseController
             }
         }
 
-        return $this->success($user->toArray());
+        if(!empty($user)){
+            return $this->success($user->toArray());
+        }else{
+            return $this->error('登陆失败',404);
+        }
+
     }
 
     public function generateRandomString($length = 10)
