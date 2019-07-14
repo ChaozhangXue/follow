@@ -3,16 +3,19 @@
 namespace api\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use api\models\ProcessFollow;
+
 
 /**
  * This is the model class for table "process".
  *
  * @property int $id 自增长的process id
  * @property string $client_name 客户公司
- * @property int $is_send_sample 是否寄样 1： 否  2 是
- * @property string $send_sample_date 寄样时间
- * @property string $sender_name 寄样人
- * @property string $make_time 建档时间
+ * @property string $follow_people 跟进角色
+ * @property string $follow_time 跟进时间
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Process extends \yii\db\ActiveRecord
 {
@@ -30,11 +33,24 @@ class Process extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_send_sample'], 'integer'],
-            [['send_sample_date', 'make_time'], 'safe'],
-            [['client_name', 'sender_name'], 'string', 'max' => 50],
+            [['follow_time', 'created_at', 'updated_at'], 'safe'],
+            [['client_name', 'follow_people'], 'string', 'max' => 50],
         ];
     }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                //'value' => new Expression('NOW()'),
+                'value'=>date('Y-m-d H:i:s'),
+            ],
+        ];
+    }
+
 
     /**
      * {@inheritdoc}
@@ -44,10 +60,18 @@ class Process extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'client_name' => 'Client Name',
-            'is_send_sample' => 'Is Send Sample',
-            'send_sample_date' => 'Send Sample Date',
-            'sender_name' => 'Sender Name',
-            'make_time' => 'Make Time',
+            'follow_people' => 'Follow People',
+            'follow_time' => 'Follow Time',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
+    public function extraFields() {
+        return [
+            'follow'=>function(){
+                return ProcessFollow::find()->where(['process_id'=> $this->id])->asArray()->one();
+            },
+        ];
+    }
+
 }

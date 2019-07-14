@@ -50,7 +50,13 @@ class SampleDataController extends BaseController
             'sample_70' => 0,
             'wenxing' => 0,
             'haoding' => 0,
+	    'meinan'=>0,
             'yizhiming' => 0,
+'tianmiao'=>0,
+'junda'=>0,
+'huanglong'=>0,
+'other_type'=>0,
+
             'data_date' => $date,
         ];
 
@@ -87,20 +93,37 @@ class SampleDataController extends BaseController
             }
         }
 
+
         //统计样品类型
-        $all_sample = Sample::find()->select('xiuhua_suplier')->asArray()->all();
+        $all_sample = Sample::find()->select('source')->asArray()->all();
         foreach ($all_sample as $val){
-            if(stripos($val['xiuhua_suplier'],"文兴") !== false){
-                $param['wenxing']++;
-            }
+		switch($val['source']){
+			case 1:
+                    		$param['wenxing']++;
+                    		break;
+                        case 2:
+                                $param['haoding']++;
+                                break;
+                        case 3:
+                                $param['meinan']++;
+                                break;
+                        case 4:
+                                $param['yizhiming']++;
+                                break;
+                        case 5:
+                                $param['tianmiao']++;
+                                break;
+                        case 6:
+                                $param['junda']++;
+                                break;
+                        case 7:
+                                $param['huanglong']++;
+                                break;
+                        case 8:
+                                $param['other_type']++;
+                                break;
 
-            if(stripos($val['xiuhua_suplier'],"豪鼎") !== false){
-                $param['haoding']++;
-            }
-
-            if(stripos($val['xiuhua_suplier'],"怡之鸣") !== false){
-                $param['yizhiming']++;
-            }
+		}
         }
 
         return $param;
