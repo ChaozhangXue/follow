@@ -46,7 +46,7 @@ class ProcessFollow extends \yii\db\ActiveRecord
     {
         return [
             [['process_id', 'follow_day'], 'integer'],
-            [['follow_month', 'created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['backup'], 'string'],
         ];
     }
