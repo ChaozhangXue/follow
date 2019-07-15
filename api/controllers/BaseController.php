@@ -293,8 +293,9 @@ class BaseController extends ActiveController
     public function actionSelect($column){
         $org_model = $this->modelClass;
 
-        $res = $org_model->select("$column")->groupBy($column)->asArray()->all();
+        $res = $org_model::find()->select($column)->groupBy($column)->asArray()->all();
 
-        return ['items' => $res];
+        return array_column($res,$column);
     }
+
 }

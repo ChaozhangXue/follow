@@ -199,6 +199,9 @@ class ClientDataController extends BaseController
     }
 
     public function getPercentage($child, $parent){
+        if($parent == 0){
+            return "0%";
+        }
         return number_format($child/$parent * 100, 2)  . '%';
     }
 
