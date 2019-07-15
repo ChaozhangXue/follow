@@ -289,4 +289,13 @@ class BaseController extends ActiveController
 
         return ['items' => $models, '_meta' => ['totalCount'=>$count,'pageCount'=>floor($count/$pageSize),'currentPage'=>$pageNum,'per-page'=> $pageSize]];
     }
+
+    public function actionSelect(){
+        $column = Yii::$app->request->post('column');
+        $org_model = $this->modelClass;
+
+        $res = $org_model->select("$column")->groupBy($column)->asArray()->all();
+
+        return ['items' => $res];
+    }
 }
