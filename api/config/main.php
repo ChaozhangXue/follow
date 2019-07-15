@@ -87,6 +87,7 @@ return [
                         'v1/sample-price',
                         'v1/suggestion',
                         'v1/process',
+                        'v1/process-follow',
                     ],
                     'extraPatterns' => [
                         'POST  search' => 'search',//通过这种方式新加搜索
