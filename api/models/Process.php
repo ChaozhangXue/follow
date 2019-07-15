@@ -69,7 +69,7 @@ class Process extends \yii\db\ActiveRecord
     public function extraFields() {
         return [
             'follow'=>function(){
-                return ProcessFollow::find()->where(['process_id'=> $this->id])->asArray()->one();
+                return ProcessFollow::find()->where(['process_id'=> $this->id])->asArray()->all();
             },
         ];
     }

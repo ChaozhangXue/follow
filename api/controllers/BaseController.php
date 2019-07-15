@@ -279,9 +279,9 @@ class BaseController extends ActiveController
                 $model['price'] = SamplePrice::find()->where(['sample_id'=> $model['id']])->asArray()->one();
             }
         }
-	if($expand == 'follow'){
+	    if($expand == 'follow'){
             foreach ($models as &$model){
-                $model['follow'] = ProcessFollow::find()->where(['process_id'=> $model['id']])->asArray()->one();
+                $model['follow'] = ProcessFollow::find()->where(['process_id'=> $model['id']])->asArray()->all();
             }
         }
 
