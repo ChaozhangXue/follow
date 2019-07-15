@@ -92,7 +92,7 @@ return [
                     'extraPatterns' => [
                         'POST  search' => 'search',//通过这种方式新加搜索
                         'POST  search-like' => 'search-like',//模糊查询
-                        'GET  select' => 'select',
+                        'GET  select/<column>' => 'select',
                     ]
                 ],
                 [
