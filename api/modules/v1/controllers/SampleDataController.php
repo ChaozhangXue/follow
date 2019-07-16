@@ -37,7 +37,8 @@ class SampleDataController extends BaseController
         return $return;
     }
 
-    public function getData($date){
+    public function getData($date)
+    {
         $param = [
             'today_add_sample' => 0,
             'monthly_add_sample' => 0,
@@ -50,12 +51,12 @@ class SampleDataController extends BaseController
             'sample_70' => 0,
             'wenxing' => 0,
             'haoding' => 0,
-	    'meinan'=>0,
+            'meinan' => 0,
             'yizhiming' => 0,
-'tianmiao'=>0,
-'junda'=>0,
-'huanglong'=>0,
-'other_type'=>0,
+            'tianmiao' => 0,
+            'junda' => 0,
+            'huanglong' => 0,
+            'other_type' => 0,
 
             'data_date' => $date,
         ];
@@ -69,15 +70,15 @@ class SampleDataController extends BaseController
         $param['total_add_sample'] = Sample::find()->count();;
 
         //统计新老样品  新的表示 30天内的算新    超过30天的算老
-        $early_30  = date('Ymd', strtotime('-1 month'));
-        $param['new_sample'] = Sample::find()->where(['>','created_at', $early_30])->count();
+        $early_30 = date('Ymd', strtotime('-1 month'));
+        $param['new_sample'] = Sample::find()->where(['>', 'created_at', $early_30])->count();
         $param['old_sample'] = $param['total_add_sample'] - $param['new_sample'];
 
         //统计样品价格  统计线上价格
         $sample_price = SamplePrice::find()->asArray()->all();
-        foreach ($sample_price as $val){
+        foreach ($sample_price as $val) {
             $price = $val['online_price'];
-            switch ($price){
+            switch ($price) {
                 case (0 < $price && $price <= 10):
                     $param['sample_10']++;
                     break;
@@ -96,34 +97,34 @@ class SampleDataController extends BaseController
 
         //统计样品类型
         $all_sample = Sample::find()->select('source')->asArray()->all();
-        foreach ($all_sample as $val){
-		switch($val['source']){
-			case 1:
-                    		$param['wenxing']++;
-                    		break;
-                        case 2:
-                                $param['haoding']++;
-                                break;
-                        case 3:
-                                $param['meinan']++;
-                                break;
-                        case 4:
-                                $param['yizhiming']++;
-                                break;
-                        case 5:
-                                $param['tianmiao']++;
-                                break;
-                        case 6:
-                                $param['junda']++;
-                                break;
-                        case 7:
-                                $param['huanglong']++;
-                                break;
-                        case 8:
-                                $param['other_type']++;
-                                break;
+        foreach ($all_sample as $val) {
+            switch ($val['source']) {
+                case 1:
+                    $param['wenxing']++;
+                    break;
+                case 2:
+                    $param['haoding']++;
+                    break;
+                case 3:
+                    $param['meinan']++;
+                    break;
+                case 4:
+                    $param['yizhiming']++;
+                    break;
+                case 5:
+                    $param['tianmiao']++;
+                    break;
+                case 6:
+                    $param['junda']++;
+                    break;
+                case 7:
+                    $param['huanglong']++;
+                    break;
+                case 8:
+                    $param['other_type']++;
+                    break;
 
-		}
+            }
         }
 
         return $param;
