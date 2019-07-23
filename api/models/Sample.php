@@ -5,7 +5,6 @@ namespace api\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
-
 /**
  * This is the model class for table "sample".
  *
@@ -50,18 +49,7 @@ class Sample extends \yii\db\ActiveRecord
             [['title', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
         ];
     }
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                //'value' => new Expression('NOW()'),
-                'value'=>date('Y-m-d H:i:s'),
-            ],
-        ];
-    }
+
     /**
      * {@inheritdoc}
      */
@@ -88,11 +76,25 @@ class Sample extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
-public function extraFields() {
+
+    public function extraFields() {
         return [
             'price'=>function(){
                 return SamplePrice::find()->where(['sample_id'=> $this->id])->asArray()->one();
             },
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                //'value' => new Expression('NOW()'),
+                'value'=>date('Y-m-d H:i:s'),
+            ],
         ];
     }
 }

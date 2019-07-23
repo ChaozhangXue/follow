@@ -50,6 +50,7 @@ class UserinfoController extends BaseController
         $user_ext = isset($post_data['user_ext'])? $post_data['user_ext']:'';
         $username = isset($post_data['username'])? $post_data['username']:'';
         $password = isset($post_data['password'])? $post_data['password']:'';
+        $platform = isset($post_data['platform'])? $post_data['platform']:'2';//1:后台 2：小程序
 
         $model = $this->modelClass;
         if(!empty($username)){
@@ -57,7 +58,7 @@ class UserinfoController extends BaseController
             $user = $model::find()->where(['username' => $username, 'password'=> $password])->one();
             if ($user) {
                 $token = $this->generateRandomString();
-                $user->token = $token;
+                $user->token = $platform . '_' . $token;
                 $user->save();
             } else {
                 return $this->error('登陆失败',404);
@@ -70,7 +71,7 @@ class UserinfoController extends BaseController
             $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password])->one();
             if ($user) {
                 $token = $this->generateRandomString();
-                $user->token = $token;
+                $user->token = $platform . '_' .$token;
                 $user->save();
             } else {
                 return $this->error('登陆失败',404);

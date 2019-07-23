@@ -11,13 +11,9 @@ use Yii;
  * @property int $client_id 客户id
  * @property string $title 商品款号
  * @property string $pic 商品图片
- * @property string $rmb rmb
- * @property string $usd usd
+ * @property string $rmb 报价
+ * @property string $usd 报价备注
  * @property string $price_date 报价日期
- * @property string $backup 备注信息
- * @property int $packaged 是否包装（1否 2是）
- * @property int $is_tax 是否含税(1 否 2 是)
- * @property int $is_logistics 是否物流（1否 2 是）
  */
 class ClientPrice extends \yii\db\ActiveRecord
 {
@@ -35,10 +31,10 @@ class ClientPrice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'packaged', 'is_tax', 'is_logistics'], 'integer'],
+            [['client_id'], 'integer'],
             [['pic'], 'string'],
             [['price_date'], 'safe'],
-            [['title', 'rmb', 'usd', 'backup'], 'string', 'max' => 50],
+            [['title', 'rmb', 'usd'], 'string', 'max' => 50],
         ];
     }
 
@@ -55,10 +51,6 @@ class ClientPrice extends \yii\db\ActiveRecord
             'rmb' => 'Rmb',
             'usd' => 'Usd',
             'price_date' => 'Price Date',
-            'backup' => 'Backup',
-            'packaged' => 'Packaged',
-            'is_tax' => 'Is Tax',
-            'is_logistics' => 'Is Logistics',
         ];
     }
 }

@@ -15,6 +15,23 @@ use yii\web\Response;
  */
 class BaseController extends ActiveController
 {
+    public $menu = [
+        '1' => ['client-backup', 'client-contact', 'client', 'client-price', 'process','process-follow'],
+        '2' => ['sample', 'sample-data'],
+        '3' => ['client-data', 'sample-data', 'sample', 'sample-data'],
+        '4' => ['exhibition', 'suggestion'],
+        '5' => ['userinfo'],
+    ];
+
+    public $function = [
+        '1' => ['view', 'index'],
+        '2' => ['update','view'],
+        '3' => ['update','create'],
+        '4' => ['create'],
+        '5' => ['search', 'search-like'],
+        '6' => ['update'],
+    ];
+
     public function behaviors()
     {
 //        if($this->module->requestedAction->id)
@@ -43,90 +60,56 @@ class BaseController extends ActiveController
      */
     public function checkAccess($action, $model = null, $params = [])
     {
+        $token = Yii::$app->request->get('token','');
 //        $token = Yii::$app->request->getHeaders()['token'] ?? '';
-//        if(empty($token)){
-        //{
-        //    "name": "Exception",
-        //    "message": "权限认证失败",
-        //    "code": 401,
-        //    "type": "Exception",
-        //    "file": "D:\\xampp\\htdocs\\follow\\api\\controllers\\BaseController.php",
-        //    "line": 31,
-        //    "stack-trace": [
-        //        "#0 [internal function]: api\\controllers\\BaseController->checkAccess('index')",
-        //        "#1 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\rest\\IndexAction.php(79): call_user_func(Array, 'index')",
-        //        "#2 [internal function]: yii\\rest\\IndexAction->run()",
-        //        "#3 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Action.php(94): call_user_func_array(Array, Array)",
-        //        "#4 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Controller.php(157): yii\\base\\Action->runWithParams(Array)",
-        //        "#5 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Module.php(528): yii\\base\\Controller->runAction('index', Array)",
-        //        "#6 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\web\\Application.php(103): yii\\base\\Module->runAction('v1/suggestion/i...', Array)",
-        //        "#7 D:\\xampp\\htdocs\\follow\\vendor\\yiisoft\\yii2\\base\\Application.php(386): yii\\web\\Application->handleRequest(Object(yii\\web\\Request))",
-        //        "#8 D:\\xampp\\htdocs\\follow\\api\\web\\index.php(17): yii\\base\\Application->run()",
-        //        "#9 {main}"
-        //    ]
-        //}
-//            throw new \Exception('权限认证失败','401');
-//        }
-//        $user = Userinfo::find()->where(['token' => $token])->asArray()->one();
-//        if (empty($user)) {
-////            $this->user_info = $user;
-//            //拿到用户信息后 需要校验用户权限
-////            if($this->validateAuth($this->module->requestedRoute, $user['user_auth'], $user['function_auth']) == false){
-////                $this->error('Permission Denied.', -1);
-////            }
-//
-//            throw new \Exception('权限认证失败(请重新登陆)','401');
-//        }
-        //todo 把权限认证的逻辑放这里
+        if (!empty($token)) {
+            $val = explode('_', $token);
+            if(!empty($val) || $val == 1){
+                $user = Userinfo::find()->where(['token' => $token])->asArray()->one();
+                if (empty($user)) {
+                    //拿到用户信息后 需要校验用户权限
+                    if (!$this->validateAuth(Yii::$app->controller->id, Yii::$app->controller->action->id, $user['user_auth'], $user['function_auth']) == false) {
+//                        throw new \Exception('权限认证失败(请重新登陆)', '401');
+                        return $this->error('权限认证失败(请重新登陆)', 401);
+                    }
+                }
+            }
+        }
     }
 
-//    public function validateAuth($url, $user_auth, $function_auth)
-//    {
-//        if(empty($user_auth) || empty($function_auth)){
-//            return false;
-//        }
-//
-//        list($controller, $action) = explode('/', $url);
-//        if(!in_array($action,['add','one','search','update'])){
-//            return true;
-//        }
-////        function 对应的是action
-//        $function_id = explode(',', $function_auth);
-//        $function = [];
-//        foreach ($function_id as $val){
-//            $function = array_merge($function, $this->function[$val]);
-//        }
-//        if(!in_array($action, $function)){
-//            return false;
-//        }
-//
-//        //menu 对应的是控制器
-//        $menu_id = explode(',', $user_auth);
-//        $menu = [];
-//        foreach ($menu_id as $val){
-//            $menu = array_merge($menu, $this->menu[$val]);
-//        }
-//        if(!in_array($controller, $menu)){
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    public function validateAuth($controller, $action, $user_auth, $function_auth)
+    {
+        if(empty($user_auth) || empty($function_auth)|| empty($controller)||empty($action)){
+            return false;
+        }
+
+//        function 对应的是action
+        $function_id = explode(',', $function_auth);
+        $function = [];
+        foreach ($function_id as $val){
+            $function = array_merge($function, $this->function[$val]);
+        }
+        if(!in_array($action, $function)){
+            return false;
+        }
+
+        //menu 对应的是控制器
+        $menu_id = explode(',', $user_auth);
+        $menu = [];
+        foreach ($menu_id as $val){
+            $menu = array_merge($menu, $this->menu[$val]);
+        }
+        if(!in_array($controller, $menu)){
+            return false;
+        }
+
+        return true;
+    }
 
     public function actions()
     {
         return parent::actions(); // TODO: Change the autogenerated stub
     }
-
-//    public function actionIndex(){
-//        $model = $this->modelClass;
-//        return new ActiveDataProvider(
-//            [
-//                'query' => $model::find()->asArray(),
-//                'pagination' => ['pageSize'=>5]
-//            ]
-//        );
-//    }
 
     public function success($data = [], $msg = 'success', $code = 200)
     {
@@ -202,21 +185,21 @@ class BaseController extends ActiveController
 
         $models = $models->asArray()->all();
 
-	if($expand == 'follow'){
-            foreach ($models as &$model){
-                $model['follow'] = ProcessFollow::find()->where(['process_id'=> $model['id']])->asArray()->one();
+        if ($expand == 'follow') {
+            foreach ($models as &$model) {
+                $model['follow'] = ProcessFollow::find()->where(['process_id' => $model['id']])->asArray()->one();
             }
         }
 
-        if($expand == 'price'){
-            foreach ($models as &$model){
+        if ($expand == 'price') {
+            foreach ($models as &$model) {
 //                print_r($model['id']);die;
-                $model['price'] = SamplePrice::find()->where(['sample_id'=> $model['id']])->asArray()->one();
+                $model['price'] = SamplePrice::find()->where(['sample_id' => $model['id']])->asArray()->one();
             }
         }
         $count = $org_model::find()->where($search)->count();
 
-        return ['items' => $models, '_meta' => ['totalCount'=>$count,'pageCount'=>floor($count/$pageSize),'currentPage'=>$pageNum,'per-page'=> $pageSize]];
+        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
 
 //        $search = Yii::$app->request->post();
 //        if (empty($search)) {
@@ -274,28 +257,29 @@ class BaseController extends ActiveController
 
         $models = $models->asArray()->all();
 
-        if($expand == 'price'){
-            foreach ($models as &$model){
-                $model['price'] = SamplePrice::find()->where(['sample_id'=> $model['id']])->asArray()->one();
+        if ($expand == 'price') {
+            foreach ($models as &$model) {
+                $model['price'] = SamplePrice::find()->where(['sample_id' => $model['id']])->asArray()->one();
             }
         }
-	    if($expand == 'follow'){
-            foreach ($models as &$model){
-                $model['follow'] = ProcessFollow::find()->where(['process_id'=> $model['id']])->asArray()->all();
+        if ($expand == 'follow') {
+            foreach ($models as &$model) {
+                $model['follow'] = ProcessFollow::find()->where(['process_id' => $model['id']])->asArray()->all();
             }
         }
 
         $count = $org_model::find()->where($where)->count();
 
-        return ['items' => $models, '_meta' => ['totalCount'=>$count,'pageCount'=>floor($count/$pageSize),'currentPage'=>$pageNum,'per-page'=> $pageSize]];
+        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
     }
 
-    public function actionSelect($column){
+    public function actionSelect($column)
+    {
         $org_model = $this->modelClass;
 
         $res = $org_model::find()->select($column)->groupBy($column)->asArray()->all();
 
-        return array_column($res,$column);
+        return array_column($res, $column);
     }
 
 }
