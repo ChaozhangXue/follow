@@ -24,6 +24,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $xiuhua_card_num 绣花卡号
  * @property int $xiuhua_gongyi 绣花工艺1：平绣 2水溶绣 3金片绣 4激光绣 5盘带绣 6其他工艺
  * @property int $source 客户来源 1：文兴 2豪鼎3美楠 4怡之鸣 5天森 6骏达 7黄龙 8其他
+ * @property int $inStock 是否是现货 0无现货 1有现货
  * @property string $created_at
  * @property string $updated_at
  */
@@ -44,7 +45,7 @@ class Sample extends \yii\db\ActiveRecord
     {
         return [
             [['pic'], 'string'],
-            [['xiuhua_gongyi', 'source'], 'integer'],
+            [['xiuhua_gongyi', 'source', 'inStock'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
         ];
@@ -72,6 +73,7 @@ class Sample extends \yii\db\ActiveRecord
             'xiuhua_card_num' => 'Xiuhua Card Num',
             'xiuhua_gongyi' => 'Xiuhua Gongyi',
             'source' => 'Source',
+            'inStock' => 'In Stock',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
