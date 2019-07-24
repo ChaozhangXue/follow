@@ -55,7 +55,7 @@ class UserinfoController extends BaseController
         $model = $this->modelClass;
         if(!empty($username)){
 
-            $user = $model::find()->where(['username' => $username, 'password'=> $password, 'enabled' => 2])->one();
+            $user = $model::find()->where(['username' => $username, 'password'=> $password, 'enabled' => 1])->one();
             if ($user) {
                 $token = $this->generateRandomString();
                 $user->token = $platform . '_' . $token;
@@ -68,7 +68,7 @@ class UserinfoController extends BaseController
         if(!empty($user_ext)){
             $model = $this->modelClass;
 
-            $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password, 'enabled' => 2])->one();
+            $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password, 'enabled' => 1])->one();
             if ($user) {
                 $token = $this->generateRandomString();
                 $user->token = $platform . '_' .$token;

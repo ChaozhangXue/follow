@@ -60,8 +60,8 @@ class BaseController extends ActiveController
      */
     public function checkAccess($action, $model = null, $params = [])
     {
-        $token = Yii::$app->request->get('token','');
-//        $token = Yii::$app->request->getHeaders()['token'] ?? '';
+//        $token = Yii::$app->request->get('token','');
+        $token = isset(Yii::$app->request->getHeaders()['token'])? Yii::$app->request->getHeaders()['token']:'';
         if (!empty($token)) {
             $val = explode('_', $token);
             if(!empty($val) || $val == 1){
