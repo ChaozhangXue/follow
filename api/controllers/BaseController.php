@@ -64,11 +64,11 @@ class BaseController extends ActiveController
         $token = isset(Yii::$app->request->getHeaders()['token'])? Yii::$app->request->getHeaders()['token']:'';
         if (!empty($token)) {
             $val = explode('_', $token);
-            if(!empty($val) || $val == 1){
+            if(!empty($val) && $val[0] == 1){
                 $user = Userinfo::find()->where(['token' => $token])->asArray()->one();
-                if (empty($user)) {
+                if (!empty($user)) {
                     //拿到用户信息后 需要校验用户权限
-                    if (!$this->validateAuth(Yii::$app->controller->id, Yii::$app->controller->action->id, $user['user_auth'], $user['function_auth']) == false) {
+                    if ($this->validateAuth(Yii::$app->controller->id, Yii::$app->controller->action->id, $user['user_auth'], $user['function_auth']) == false) {
 //                        throw new \Exception('权限认证失败(请重新登陆)', '401');
                         return $this->error('权限认证失败(请重新登陆)', 401);
                     }
@@ -87,7 +87,9 @@ class BaseController extends ActiveController
         $function_id = explode(',', $function_auth);
         $function = [];
         foreach ($function_id as $val){
-            $function = array_merge($function, $this->function[$val]);
+            if(!empty($val) && isset($this->function[$val])){
+                $function = array_merge($function, $this->function[$val]);
+            }
         }
         if(!in_array($action, $function)){
             return false;
@@ -97,7 +99,9 @@ class BaseController extends ActiveController
         $menu_id = explode(',', $user_auth);
         $menu = [];
         foreach ($menu_id as $val){
-            $menu = array_merge($menu, $this->menu[$val]);
+            if(!empty($val) && isset($this->menu[$val])){
+                $menu = array_merge($menu, $this->menu[$val]);
+            }
         }
         if(!in_array($controller, $menu)){
             return false;
@@ -277,9 +281,8 @@ class BaseController extends ActiveController
     {
         $org_model = $this->modelClass;
 
-        $res = $org_model::find()->select($column)->groupBy($column)->asArray()->all();
+        $res = $org_model::find()->select([$column,'id'])->groupBy($column)->asArray()->all();
 
-        return array_column($res, $column);
+        return $res;
     }
-
 }

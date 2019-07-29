@@ -72,6 +72,7 @@ return [
                         'POST  login' => 'login',
                         'POST  logout' => 'logout',
                         'PUT  reset-password/<id>' => 'reset-password',
+                        'GET  select/<column>' => 'select',
                     ]
                 ],
                 [

@@ -51,13 +51,12 @@ class UserinfoController extends BaseController
         $username = isset($post_data['username'])? $post_data['username']:'';
         $password = isset($post_data['password'])? $post_data['password']:'';
         $platform = isset($post_data['platform'])? $post_data['platform']:'2';//1:后台 2：小程序
-
+        $token = $this->generateRandomString();
         $model = $this->modelClass;
         if(!empty($username)){
 
             $user = $model::find()->where(['username' => $username, 'password'=> $password, 'enabled' => 1])->one();
             if ($user) {
-                $token = $this->generateRandomString();
                 $user->token = $platform . '_' . $token;
                 $user->save();
             } else {
@@ -70,7 +69,6 @@ class UserinfoController extends BaseController
 
             $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password, 'enabled' => 1])->one();
             if ($user) {
-                $token = $this->generateRandomString();
                 $user->token = $platform . '_' .$token;
                 $user->save();
             } else {
