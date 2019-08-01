@@ -13,7 +13,7 @@ use Yii;
  * @property string $password 密码
  * @property string $department 部门
  * @property string $phone 手机号码
- * @property int $enabled 是否启用 1:未启用 2: 启用
+ * @property int $enabled 是否启用 0:未启用 1: 启用
  * @property int $role 1.运营 2 业务 3跟单 4 生产
  * @property string $user_auth /用户权限 (1 应付管理 2应收管理 3 出纳管理 4 数据管理 5考情管理 6账户管理)
  * @property string $function_auth 功能权限 1: 查看权限 2编辑权限 3:保存权限 4新增权限 5 查询权限 6 停用权限
@@ -55,17 +55,17 @@ class Userinfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_ext' => 'User Ext',
-            'username' => 'Username',
-            'password' => 'Password',
-            'department' => 'Department',
-            'phone' => 'Phone',
-            'enabled' => 'Enabled',
-            'role' => 'Role',
-            'user_auth' => 'User Auth',
-            'function_auth' => 'Function Auth',
-            'maker' => 'Maker',
+            'id' => '自增长id',
+            'user_ext' => '工号',
+            'username' => '用户名',
+            'password' => '密码',
+            'department' => '部门',
+            'phone' => '手机号码',
+            'enabled' => '是否启用 0:未启用 1: 启用',
+            'role' => '1.运营 2 业务 3跟单 4 生产',
+            'user_auth' => '/用户权限 (1 应付管理 2应收管理 3 出纳管理 4 数据管理 5考情管理 6账户管理)',
+            'function_auth' => '功能权限 1: 查看权限 2编辑权限 3:保存权限 4新增权限 5 查询权限 6 停用权限',
+            'maker' => '创建人',
             'token' => 'Token',
             'last_login' => 'Last Login',
             'updated_at' => 'Updated At',
