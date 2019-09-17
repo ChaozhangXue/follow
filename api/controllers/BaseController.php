@@ -56,6 +56,7 @@ class BaseController extends ActiveController
      * @param string $action
      * @param null $model
      * @param array $params
+     * @return array
      * @throws \Exception
      */
     public function checkAccess($action, $model = null, $params = [])
@@ -151,23 +152,12 @@ class BaseController extends ActiveController
         $search = Yii::$app->request->post();
         $search = array_filter($search);
 
-//        if (empty($search)) {
-//            return null;
-//        }
-//        $keys = Yii::$app->request->post('keys');
-//        $value = Yii::$app->request->post('value');
-
         $pageNum = Yii::$app->request->get('page', '1');
         $pageSize = Yii::$app->request->get('per-page', '5');
 
         $sort = Yii::$app->request->get('sort', '');
         $expand = Yii::$app->request->get('expand', '');
 
-//        $keys_ary = explode(',', $keys);
-//        $where = ['or'];
-//        foreach ($keys_ary as $val) {
-//            $where[] = ['like', $val, $value];
-//        }
         //分页的逻辑
         $org_model = $this->modelClass;
         $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($search);
@@ -204,20 +194,6 @@ class BaseController extends ActiveController
         $count = $org_model::find()->where($search)->count();
 
         return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
-
-//        $search = Yii::$app->request->post();
-//        if (empty($search)) {
-//            return null;
-//        }
-//
-//        $pageNum = Yii::$app->request->post('page', '1');
-//        $pageSize = Yii::$app->request->post('per-page', '5');
-//
-//        //todo 这里加个分页
-//        $model = $this->modelClass;
-//        $models = $model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($search)->asArray()->all();
-//
-//        return $models;
     }
 
     /**
