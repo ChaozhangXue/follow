@@ -71,7 +71,7 @@ class SampleController extends BaseController
                 $model['price'] = SamplePrice::find()->where(['sample_id' => $model['id']])->asArray()->one();
             }
         }
-        $count = $org_model::find()->where($search)->count();
+        $count = count($models);
 
         return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
     }

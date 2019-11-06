@@ -49,13 +49,17 @@ return [
             'class' => 'yii\web\Response',
             'on beforeSend' => function ($event) {
                 $response = $event->sender;
-                $response->data = [
-                    'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode()< 300)? 0:1,
-                    'code' => $response->getStatusCode(),
-                    'msg' => $response->statusText,
-                    'data' => $response->data,
-                ];
-                $response->statusCode = 200;
+                if (is_string($response->data)) { //gii的是string  正常是数组
+                    return;
+                } else {
+                    $response->data = [
+                        'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) ? 0 : 1,
+                        'code' => $response->getStatusCode(),
+                        'msg' => $response->statusText,
+                        'data' => $response->data,
+                    ];
+                    $response->statusCode = 200;
+                }
             },
         ],
         'urlManager' => [
