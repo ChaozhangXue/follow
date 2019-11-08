@@ -43,6 +43,7 @@ class SamplePrice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['sample_id'], 'required'],
             [['sample_id'], 'integer'],
             [['online_price', 'offline_price', 'cost', 'make_price', 'dibu_price', 'on_tax_price', 'carriage', 'USD_price'], 'number'],
             [['rmb_backup', 'usd_backup'], 'string'],
