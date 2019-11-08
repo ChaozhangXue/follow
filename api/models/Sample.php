@@ -58,26 +58,27 @@ class Sample extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'pic' => 'Pic',
-            'color' => 'Color',
-            'width' => 'Width',
-            'kilo' => 'Kilo',
-            'minimum' => 'Minimum',
-            'xiuhua_suplier' => 'Xiuhua Suplier',
-            'design_time' => 'Design Time',
-            'dahuo_time' => 'Dahuo Time',
-            'xiuxian_num' => 'Xiuxian Num',
-            'product_num' => 'Product Num',
-            'other_num' => 'Other Num',
-            'xiuhua_card_num' => 'Xiuhua Card Num',
-            'xiuhua_gongyi' => 'Xiuhua Gongyi',
-            'source' => 'Source',
-            'inStock' => 'In Stock',
+            'title' => '商品款号',
+            'pic' => '商品图片',
+            'color' => '商品颜色',
+            'width' => '商品门幅',
+            'kilo' => '商品克重（克）',
+            'minimum' => '最低起定（米）',
+            'xiuhua_suplier' => '绣花供应',
+            'design_time' => '打样时间',
+            'dahuo_time' => '大货时间',
+            'xiuxian_num' => '绣线号码',
+            'product_num' => '商品卡号',
+            'other_num' => '其他编号',
+            'xiuhua_card_num' => '绣花卡号',
+            'xiuhua_gongyi' => '绣花工艺1：平绣 2水溶绣 3金片绣 4激光绣 5盘带绣 6其他工艺',
+            'source' => '客户来源 1：文兴 2豪鼎3美楠 4怡之鸣 5天森 6骏达 7黄龙 8其他',
+            'inStock' => '是否是现货 0无现货 1有现货',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
     }
+
 
     public function extraFields() {
         return [
