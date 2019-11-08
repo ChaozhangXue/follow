@@ -32,6 +32,7 @@ class ClientPrice extends \yii\db\ActiveRecord
     {
         return [
             [['client_id'], 'integer'],
+            [['client_id'], 'require'],
             [['pic'], 'string'],
             [['price_date'], 'safe'],
             [['title', 'rmb', 'usd'], 'string', 'max' => 50],

@@ -36,6 +36,7 @@ class ClientContact extends \yii\db\ActiveRecord
     {
         return [
             [['client_id'], 'integer'],
+            [['client_id'], 'require'],
             [['make_time', 'update_time'], 'safe'],
             [['email', 'wechat', 'whats_app', 'facebook', 'printerest', 'maker', 'update_people'], 'string', 'max' => 50],
         ];

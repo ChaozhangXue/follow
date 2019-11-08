@@ -33,6 +33,7 @@ class ClientBackup extends \yii\db\ActiveRecord
     {
         return [
             [['client_id'], 'integer'],
+            [['client_id'], 'require'],
             [['price_date', 'maker_date', 'update_time'], 'safe'],
             [['msg', 'maker', 'update_people'], 'string', 'max' => 50],
         ];
