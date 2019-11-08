@@ -36,7 +36,6 @@ class ClientContact extends \yii\db\ActiveRecord
     {
         return [
             [['client_id'], 'integer'],
-            [['client_id'], 'require'],
             [['make_time', 'update_time'], 'safe'],
             [['email', 'wechat', 'whats_app', 'facebook', 'printerest', 'maker', 'update_people'], 'string', 'max' => 50],
         ];
@@ -48,13 +47,13 @@ class ClientContact extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => '自增id',
             'client_id' => 'Client ID',
             'email' => 'Email',
-            'wechat' => 'Wechat',
+            'wechat' => '微信号',
             'whats_app' => 'Whats App',
             'facebook' => 'Facebook',
-            'printerest' => 'Printerest',
+            'printerest' => '备注',
             'make_time' => 'Make Time',
             'maker' => 'Maker',
             'update_time' => 'Update Time',

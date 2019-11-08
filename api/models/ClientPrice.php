@@ -31,8 +31,8 @@ class ClientPrice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['client_id'], 'required'],
             [['client_id'], 'integer'],
-            [['client_id'], 'require'],
             [['pic'], 'string'],
             [['price_date'], 'safe'],
             [['title', 'rmb', 'usd'], 'string', 'max' => 50],
@@ -46,12 +46,12 @@ class ClientPrice extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'client_id' => 'Client ID',
-            'title' => 'Title',
-            'pic' => 'Pic',
-            'rmb' => 'Rmb',
-            'usd' => 'Usd',
-            'price_date' => 'Price Date',
+            'client_id' => '客户id',
+            'title' => '商品款号',
+            'pic' => '商品图片',
+            'rmb' => '报价',
+            'usd' => '报价备注',
+            'price_date' => '报价日期',
         ];
     }
 }

@@ -32,8 +32,8 @@ class ClientBackup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['client_id'], 'required'],
             [['client_id'], 'integer'],
-            [['client_id'], 'require'],
             [['price_date', 'maker_date', 'update_time'], 'safe'],
             [['msg', 'maker', 'update_people'], 'string', 'max' => 50],
         ];
@@ -46,13 +46,13 @@ class ClientBackup extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'client_id' => 'Client ID',
-            'msg' => 'Msg',
-            'price_date' => 'Price Date',
-            'maker_date' => 'Maker Date',
-            'maker' => 'Maker',
-            'update_time' => 'Update Time',
-            'update_people' => 'Update People',
+            'client_id' => '客户id',
+            'msg' => '备注信息',
+            'price_date' => '报价日期',
+            'maker_date' => '建档时间',
+            'maker' => '建档人员',
+            'update_time' => '修改时间',
+            'update_people' => '修改角色',
         ];
     }
 }
