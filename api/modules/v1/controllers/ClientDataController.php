@@ -76,29 +76,29 @@ class ClientDataController extends BaseController
         foreach ($today_client_data as $val) {
             switch ($val['source']) {
 //            客户来源 1：展会 2线上 3客户介绍
-                case 1:
+                case 0:
                     $param['exhibition_count']++;
                     break;
-                case 2:
+                case 1:
                     $param['online_count']++;
                     break;
-                case 3:
+                case 2:
                     $param['introduce_count']++;
                     break;
             }
 
             switch ($val['nature']) {
 //            公司性质(1.服装厂 2.批发商 3代理商 4零售商)
-                case 1:
+                case 0:
                     $param['clothing_count']++;
                     break;
-                case 2:
+                case 1:
                     $param['pifa_count']++;
                     break;
-                case 3:
+                case 2:
                     $param['daili_count']++;
                     break;
-                case 4:
+                case 3:
                     $param['lingshou_count']++;
                     break;
             }
@@ -108,7 +108,7 @@ class ClientDataController extends BaseController
                 case 1:
                     $param['new_client']++;
                     break;
-                case 2:
+                case 0:
                     $param['old_client']++;
                     break;
             }
@@ -136,7 +136,7 @@ class ClientDataController extends BaseController
         }
 
         $param['new_client_percentage'] = $this->getPercentage($param['new_client'],($param['new_client'] + $param['old_client']));
-        $param['new_client_percentage'] = $this->getPercentage($param['old_client'],($param['new_client'] + $param['old_client']));
+        $param['old_client_percentage'] = $this->getPercentage($param['old_client'],($param['new_client'] + $param['old_client']));
         $param['online_percentage'] = $this->getPercentage($param['online_count'],($param['exhibition_count'] + $param['introduce_count'] + $param['online_count']));
         $param['offline_percentage'] = $this->getPercentage(($param['exhibition_count'] + $param['introduce_count']),($param['exhibition_count'] + $param['introduce_count'] + $param['online_count']));
 
