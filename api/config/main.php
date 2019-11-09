@@ -52,10 +52,24 @@ return [
                 if (is_string($response->data)) { //gii的是string  正常是数组
                     return;
                 } else {
+                    if(isset($response->data[0]['message'])){
+                        if($response->data[0]['message'] == '样品的id cannot be blank.'){
+                            $msg = '请先填写样品的基本信息';
+                        }else{
+                            if($response->data[0]['message'] == '客户id cannot be blank.'){
+                                $msg = '请先填写客户的基本信息';
+                            }else{
+                                $msg = $response->data[0]['message'];
+                            }
+                        }
+                    }else{
+                        $msg = $response->statusTex;
+                    }
+
                     $response->data = [
                         'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) ? 0 : 1,
                         'code' => $response->getStatusCode(),
-                        'msg' => isset($response->data[0]['message'])? $response->data[0]['message']: $response->statusText,
+                        'msg' => $msg,
                         'data' => $response->data,
                     ];
                     $response->statusCode = 200;

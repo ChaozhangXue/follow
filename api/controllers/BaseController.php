@@ -160,7 +160,11 @@ class BaseController extends ActiveController
 
         //分页的逻辑
         $org_model = $this->modelClass;
-        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($search);
+        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
+
+        foreach ($search as $key => $val){
+            $models = $models->andWhere(['like', $key, $val]);
+        }
 
         //排序逻辑
         if (!empty($sort)) {
@@ -260,5 +264,62 @@ class BaseController extends ActiveController
         $res = $org_model::find()->select([$column,'id'])->groupBy($column)->asArray()->all();
 
         return $res;
+    }
+
+    /**
+     * search 模糊查询
+     * @return null
+     */
+    public function actionFilter()
+    {
+        $keys = Yii::$app->request->post('keys');
+        $value = Yii::$app->request->post('value');
+
+        $pageNum = Yii::$app->request->get('page', '1');
+        $pageSize = Yii::$app->request->get('per-page', '5');
+
+        $sort = Yii::$app->request->get('sort', '');
+        $expand = Yii::$app->request->get('expand', '');
+
+        $keys_ary = explode(',', $keys);
+        $where = ['or'];
+        foreach ($keys_ary as $val) {
+            $where[] = ['like', $val, $value];
+        }
+        //分页的逻辑
+        $org_model = $this->modelClass;
+        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where($where);
+
+        //排序逻辑
+        if (!empty($sort)) {
+            $sort_by = substr($sort, 0, 1);
+            $sort_val = substr($sort, 1);
+
+            if ($sort_by == ' ') {
+                $by = "$sort_val ASC";
+                $models = $models->orderby($by);
+            } elseif ($sort_by == '-') {
+                $by = "$sort_val DESC";
+                $models = $models->orderby($by);
+
+            }
+        }
+
+        $models = $models->asArray()->all();
+
+        if ($expand == 'price') {
+            foreach ($models as &$model) {
+                $model['price'] = SamplePrice::find()->where(['sample_id' => $model['id']])->asArray()->one();
+            }
+        }
+        if ($expand == 'follow') {
+            foreach ($models as &$model) {
+                $model['follow'] = ProcessFollow::find()->where(['process_id' => $model['id']])->asArray()->all();
+            }
+        }
+
+        $count = $org_model::find()->where($where)->count();
+
+        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
     }
 }
