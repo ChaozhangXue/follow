@@ -63,7 +63,7 @@ return [
                             }
                         }
                     }else{
-                        $msg = $response->statusTex;
+                        $msg = $response->statusText;
                     }
 
                     $response->data = [
