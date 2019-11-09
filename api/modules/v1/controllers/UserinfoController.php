@@ -56,7 +56,7 @@ class UserinfoController extends BaseController
 
             $user = $model::find()->where(['username' => $username, 'password'=> $password])->one();
             if ($user) {
-                if($user->enable == 0){
+                if($user->enabled == 0){
                     return $this->error('账号已被停用,请联系管理员开启',404);
                 }
                 $user->token = $platform . '_' . $token;
@@ -71,7 +71,7 @@ class UserinfoController extends BaseController
 
             $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password])->one();
             if ($user) {
-                if($user->enable == 0){
+                if($user->enabled == 0){
                     return $this->error('账号已被停用,请联系管理员开启',404);
                 }
                 $user->token = $platform . '_' .$token;
