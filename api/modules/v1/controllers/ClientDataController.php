@@ -116,7 +116,7 @@ class ClientDataController extends BaseController
             //统计城市
             if (isset($param['from_percentage'][$val['province']])) {
                 $param['from_percentage'][$val['province']]['count']++;
-                if (($val['intention'] == 3)) {
+                if (($val['intention'] == 2)) {
                     $param['from_percentage'][$val['province']]['high_intention']++;
                 }
                 if ((in_array($val['id'], $has_client_price))) {
