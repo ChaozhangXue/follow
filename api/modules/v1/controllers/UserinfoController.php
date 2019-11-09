@@ -45,7 +45,6 @@ class UserinfoController extends BaseController
      *)
      */
     public function actionLogin(){
-        //todo 小程序登陆是用的工号和密码
         $post_data = Yii::$app->request->post();
         $user_ext = isset($post_data['user_ext'])? $post_data['user_ext']:'';
         $username = isset($post_data['username'])? $post_data['username']:'';
@@ -55,8 +54,11 @@ class UserinfoController extends BaseController
         $model = $this->modelClass;
         if(!empty($username)){
 
-            $user = $model::find()->where(['username' => $username, 'password'=> $password, 'enabled' => 1])->one();
+            $user = $model::find()->where(['username' => $username, 'password'=> $password])->one();
             if ($user) {
+                if($user->enable == 0){
+                    return $this->error('账号已被停用,请联系管理员开启',404);
+                }
                 $user->token = $platform . '_' . $token;
                 $user->save();
             } else {
@@ -67,8 +69,11 @@ class UserinfoController extends BaseController
         if(!empty($user_ext)){
             $model = $this->modelClass;
 
-            $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password, 'enabled' => 1])->one();
+            $user = $model::find()->where(['user_ext' => $user_ext, 'password'=> $password])->one();
             if ($user) {
+                if($user->enable == 0){
+                    return $this->error('账号已被停用,请联系管理员开启',404);
+                }
                 $user->token = $platform . '_' .$token;
                 $user->save();
             } else {
