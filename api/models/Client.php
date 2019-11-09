@@ -50,6 +50,7 @@ class Client extends \yii\db\ActiveRecord
             [['age', 'nature', 'sex', 'intention', 'type', 'distribute', 'source', 'follower_id'], 'integer'],
             [['make_time'], 'safe'],
             [['company_name', 'province', 'address', 'phone', 'called', 'position', 'country', 'first_follow_time', 'follow_backup', 'follower_name', 'maker', 'update_time', 'update_people'], 'string', 'max' => 50],
+            [['company_name'], 'unique'],
         ];
     }
 
