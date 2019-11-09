@@ -55,7 +55,7 @@ return [
                     $response->data = [
                         'r' => ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) ? 0 : 1,
                         'code' => $response->getStatusCode(),
-                        'msg' => $response->statusText,
+                        'msg' => isset($response->data[0]['message'])? $response->data[0]['message']: $response->statusText,
                         'data' => $response->data,
                     ];
                     $response->statusCode = 200;
