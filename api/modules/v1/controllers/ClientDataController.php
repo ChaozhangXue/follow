@@ -192,8 +192,8 @@ class ClientDataController extends BaseController
 
         }
 
-        $param['from_percentage'] = json_encode($final_from);
-        $param['country_client_info_percentage'] = json_encode($final_info);
+        $param['from_percentage'] = $final_from;
+        $param['country_client_info_percentage'] = $final_info;
 
         return $param;
     }
