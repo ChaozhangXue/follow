@@ -128,7 +128,7 @@ class ClientDataController extends BaseController
             } else {
                 $param['from_percentage'][$val['province']] = [
                     'count' => 1,
-                    'high_intention' => ($val['intention'] == 3) ? 1 : 0,
+                    'high_intention' => ($val['intention'] == 2) ? 1 : 0,
                     'has_price' => (in_array($val['id'], $has_client_price)) ? 1 : 0,
                     'is_boss' => stripos($val['called'], "老板") ? 1 : 0,
                 ];
