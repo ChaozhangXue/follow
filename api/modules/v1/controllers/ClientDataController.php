@@ -64,7 +64,7 @@ class ClientDataController extends BaseController
         ];
 
 
-        $today_client_data = Client::find()->where("make_time like '$date%'")->all();
+        $today_client_data = Client::find()->where("make_time like '$date%'")->asArray()->all();
         $param['today_add'] = count($today_client_data);
         $date_ary = explode('-', $date);
         $now_month = $date_ary[0] . '-' . $date_ary[1];
