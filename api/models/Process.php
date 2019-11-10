@@ -4,13 +4,14 @@ namespace api\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use api\models\ProcessFollow;
 
 /**
  * This is the model class for table "process".
  *
  * @property int $id 自增长的process id
  * @property string $client_name 客户公司
+ * @property string $client_id 客户id
+ * @property int $follow_id 跟进的用户id
  * @property string $created_at
  * @property string $updated_at
  */
@@ -30,8 +31,9 @@ class Process extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['follow_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['client_name'], 'string', 'max' => 50],
+            [['client_name', 'client_id'], 'string', 'max' => 50],
         ];
     }
 
@@ -41,12 +43,15 @@ class Process extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'client_name' => 'Client Name',
+            'id' => '自增长的process id',
+            'client_name' => '客户公司',
+            'client_id' => '客户id',
+            'follow_id' => '跟进的用户id',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
     }
+
 
     public function extraFields() {
         return [

@@ -110,6 +110,7 @@ return [
                     ],
                     'extraPatterns' => [
                         'GET  get-latest' => 'get-latest',//获取最近的新增用户
+                        'POST  distribute' => 'distribute',//分配
                         'POST  search' => 'search',//通过这种方式新加搜索
                         'POST  search-like' => 'search-like',//模糊查询
                         'GET  select/<column>' => 'select',

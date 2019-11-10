@@ -16,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $kilo 商品克重（克）
  * @property string $minimum 最低起定（米）
  * @property string $xiuhua_suplier 绣花供应
+ * @property string $dibu_suplier 底部供应
  * @property string $design_time 打样时间
  * @property string $dahuo_time 大货时间
  * @property string $xiuxian_num 绣线号码
@@ -47,7 +48,7 @@ class Sample extends \yii\db\ActiveRecord
             [['pic'], 'string'],
             [['xiuhua_gongyi', 'source', 'inStock'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
+            [['title', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'dibu_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
         ];
     }
 
@@ -65,6 +66,7 @@ class Sample extends \yii\db\ActiveRecord
             'kilo' => '商品克重（克）',
             'minimum' => '最低起定（米）',
             'xiuhua_suplier' => '绣花供应',
+            'dibu_suplier' => '底部供应',
             'design_time' => '打样时间',
             'dahuo_time' => '大货时间',
             'xiuxian_num' => '绣线号码',

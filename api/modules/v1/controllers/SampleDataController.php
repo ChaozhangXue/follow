@@ -99,28 +99,28 @@ class SampleDataController extends BaseController
         $all_sample = Sample::find()->select('source')->asArray()->all();
         foreach ($all_sample as $val) {
             switch ($val['source']) {
-                case 1:
+                case 0:
                     $param['wenxing']++;
                     break;
-                case 2:
+                case 1:
                     $param['haoding']++;
                     break;
-                case 3:
+                case 2:
                     $param['meinan']++;
                     break;
-                case 4:
+                case 3:
                     $param['yizhiming']++;
                     break;
-                case 5:
+                case 4:
                     $param['tianmiao']++;
                     break;
-                case 6:
+                case 5:
                     $param['junda']++;
                     break;
-                case 7:
+                case 6:
                     $param['huanglong']++;
                     break;
-                case 8:
+                case 7:
                     $param['other_type']++;
                     break;
 
