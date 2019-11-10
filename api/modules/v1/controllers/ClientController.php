@@ -19,7 +19,7 @@ class ClientController extends BaseController
         $today = date("Y-m");
         $client_data = Client::find()->where("make_time like '$today%'")->orderBy('id desc')
             ->limit(15)->asArray()->all();
-        
+
 //        $client_data = Client::find()
 //            ->where("make_time like '$today%'")
 //            ->orderBy('id desc')

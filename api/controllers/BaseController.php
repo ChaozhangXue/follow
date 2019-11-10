@@ -163,7 +163,7 @@ class BaseController extends ActiveController
         $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
 
         foreach ($search as $key => $val){
-            $models = $models->andWhere(['like', $key, $val]);
+            $models = $models->andWhere(['like', $key, trim($val)]);
         }
 
         //排序逻辑
@@ -191,7 +191,6 @@ class BaseController extends ActiveController
 
         if ($expand == 'price') {
             foreach ($models as &$model) {
-//                print_r($model['id']);die;
                 $model['price'] = SamplePrice::find()->where(['sample_id' => $model['id']])->asArray()->one();
             }
         }

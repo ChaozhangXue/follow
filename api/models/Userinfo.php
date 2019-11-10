@@ -3,6 +3,7 @@
 namespace api\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "userinfo".
@@ -70,6 +71,22 @@ class Userinfo extends \yii\db\ActiveRecord
             'last_login' => 'Last Login',
             'updated_at' => 'Updated At',
             'created_at' => 'Created At',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                //'value' => new Expression('NOW()'),
+                'value'=>date('Y-m-d H:i:s'),
+            ],
         ];
     }
 }

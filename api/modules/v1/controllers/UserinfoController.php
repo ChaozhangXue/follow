@@ -53,13 +53,16 @@ class UserinfoController extends BaseController
         $token = $this->generateRandomString();
         $model = $this->modelClass;
         if(!empty($username)){
-
             $user = $model::find()->where(['username' => $username, 'password'=> $password])->one();
             if ($user) {
                 if($user->enabled == 0){
                     return $this->error('账号已被停用,请联系管理员开启',404);
                 }
+                if(empty($user->user_auth)){
+                    return $this->error('该用户没有用户权限，请联系管理员开启',404);
+                }
                 $user->token = $platform . '_' . $token;
+                $user->last_login = date("Y-m-d H:i:s");
                 $user->save();
             } else {
                 return $this->error('登陆失败',404);
@@ -75,6 +78,7 @@ class UserinfoController extends BaseController
                     return $this->error('账号已被停用,请联系管理员开启',404);
                 }
                 $user->token = $platform . '_' .$token;
+                $user->last_login = date("Y-m-d H:i:s");
                 $user->save();
             } else {
                 return $this->error('登陆失败',404);
