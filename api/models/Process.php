@@ -12,6 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $client_name 客户公司
  * @property string $client_id 客户id
  * @property int $follow_id 跟进的用户id
+ * @property int $follow_name 跟进用户的name
  * @property string $created_at
  * @property string $updated_at
  */
@@ -31,7 +32,7 @@ class Process extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['follow_id'], 'integer'],
+            [['follow_id', 'follow_name'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['client_name', 'client_id'], 'string', 'max' => 50],
         ];
@@ -47,6 +48,7 @@ class Process extends \yii\db\ActiveRecord
             'client_name' => '客户公司',
             'client_id' => '客户id',
             'follow_id' => '跟进的用户id',
+            'follow_name' => '跟进用户的name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

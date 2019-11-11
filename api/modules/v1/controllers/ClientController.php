@@ -42,8 +42,6 @@ class ClientController extends BaseController
         $client_id = Yii::$app->request->post('client_id');
         $client_name = Yii::$app->request->post('client_name');
 
-
-
         $client = Client::find()->where(['id'=>$client_id])->one();
         if(empty($client)){
             return $this->error('客户不存在');

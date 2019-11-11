@@ -196,7 +196,7 @@ class BaseController extends ActiveController
         }
         $count = $org_model::find()->where($search)->count();
 
-        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
+        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => (int)$pageNum, 'per-page' => (int)$pageSize]];
     }
 
     /**
@@ -253,7 +253,7 @@ class BaseController extends ActiveController
 
         $count = $org_model::find()->where($where)->count();
 
-        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => $pageNum, 'per-page' => $pageSize]];
+        return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => (int)$pageNum, 'per-page' => (int)$pageSize]];
     }
 
     public function actionSelect($column)
