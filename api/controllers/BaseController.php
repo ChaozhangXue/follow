@@ -194,8 +194,14 @@ class BaseController extends ActiveController
                 $model['price'] = SamplePrice::find()->where(['sample_id' => $model['id']])->asArray()->one();
             }
         }
-        $count = $org_model::find()->where($search)->count();
 
+
+        $count_models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
+
+        foreach ($search as $key => $val){
+            $count_models = $count_models->andWhere(['like', $key, trim($val)]);
+        }
+        $count = $count_models->count();
         return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => (int)$pageNum, 'per-page' => (int)$pageSize]];
     }
 
