@@ -198,7 +198,7 @@ class BaseController extends ActiveController
         }
 
 
-        $count_models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
+        $count_models = $org_model::find();
 
         foreach ($search as $key => $val){
             if(!empty($val)){
