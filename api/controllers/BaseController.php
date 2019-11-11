@@ -163,7 +163,9 @@ class BaseController extends ActiveController
         $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
 
         foreach ($search as $key => $val){
-            $models = $models->andWhere(['like', $key, trim($val)]);
+            if(!empty($val)){
+                $models = $models->andWhere(['like', $key, trim($val)]);
+            }
         }
 
         //排序逻辑
@@ -199,7 +201,9 @@ class BaseController extends ActiveController
         $count_models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
 
         foreach ($search as $key => $val){
-            $count_models = $count_models->andWhere(['like', $key, trim($val)]);
+            if(!empty($val)){
+                $count_models = $count_models->andWhere(['like', $key, trim($val)]);
+            }
         }
         $count = $count_models->count();
         return ['items' => $models, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $pageSize), 'currentPage' => (int)$pageNum, 'per-page' => (int)$pageSize]];
