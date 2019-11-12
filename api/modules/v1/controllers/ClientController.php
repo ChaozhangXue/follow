@@ -50,9 +50,12 @@ class ClientController extends BaseController
         $client->follower_id = $follow_id;
         $client->save();
 
-        $process = new Process();
-        $process->client_name = $client_name;
-        $process->client_id = $client_id;
+        $process = Process::find()->where(['client_id'=> $client_id])->one();
+        if(empty($process)){
+            $process = new Process();
+            $process->client_name = $client_name;
+            $process->client_id = $client_id;
+        }
         $process->follow_id = $follow_id;
         $process->follow_name = $follow_name;
         $process->save();
