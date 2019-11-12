@@ -32,9 +32,9 @@ class Process extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['follow_id', 'follow_name'], 'integer'],
+            [['follow_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['client_name', 'client_id'], 'string', 'max' => 50],
+            [['client_name', 'client_id', 'follow_name'], 'string', 'max' => 50],
         ];
     }
 
