@@ -37,8 +37,8 @@ class ClientController extends BaseController
      */
     public function actionDistribute()
     {
-        $follow_id = Yii::$app->request->post('follow_id');
-        $follow_name = Yii::$app->request->post('follow_name');
+        $follow_id = Yii::$app->request->post('follower_id');
+        $follow_name = Yii::$app->request->post('follower_name');
         $client_id = Yii::$app->request->post('client_id');
         $client_name = Yii::$app->request->post('client_name');
 
