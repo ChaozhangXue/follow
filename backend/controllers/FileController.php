@@ -23,8 +23,9 @@ class FileController extends Controller
         // 响应头设置
         header('Access-Control-Allow-Headers:x-requested-with, content-type');
 
-        $upload_path = '/var/www/html/follow/backend/web/upload/' . date('Ymd');
-        $url = 'http://test1.delcache.com/upload/' . date('Ymd') . '/';
+        $upload_path = '/www/wwwroot/follow/backend/web/upload/' . date('Ymd');
+        $url = 'http://file.change-word.com/upload/' . date('Ymd') . '/';
+
         if (!file_exists($upload_path)) {
             mkdir($upload_path, 0777, true);
         }
