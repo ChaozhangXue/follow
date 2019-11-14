@@ -59,7 +59,7 @@ return [
                             if($response->data[0]['message'] == '客户id cannot be blank.'){
                                 $msg = '请先填写客户的基本信息';
                             }else{
-                                $msg = $response->data[0]['message'];
+                                $msg = str_replace('has already been taken', "已被使用", $response->data[0]['message']);
                             }
                         }
                     }else{

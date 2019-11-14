@@ -17,18 +17,12 @@ class ClientController extends BaseController
      */
     public function actionGetLatest()
     {
+        $page_size = 5;
         $today = date("Y-m");
         $client_data = Client::find()->where("make_time like '$today%'")->orderBy('id desc')
-            ->limit(15)->asArray()->all();
-
-//        $client_data = Client::find()
-//            ->where("make_time like '$today%'")
-//            ->orderBy('id desc')
-//            ->limit(15)
-//            ->asArray()
-//            ->all();
+            ->limit($page_size)->asArray()->all();
         $count = count($client_data);
-        return ['items' => $client_data, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / 15), 'currentPage' => 1, 'per-page' => 15]];
+        return ['items' => $client_data, '_meta' => ['totalCount' => $count, 'pageCount' => floor($count / $page_size), 'currentPage' => 1, 'per-page' => $page_size]];
     }
 
     /**
