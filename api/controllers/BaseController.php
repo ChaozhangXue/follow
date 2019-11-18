@@ -166,9 +166,14 @@ class BaseController extends ActiveController
             if($val == ''){
                 continue;
             }
-            if(!empty($val)){
-                $models = $models->andWhere(['like', $key, trim($val)]);
+            if($val == 0){
+                $models = $models->andWhere([$key=>trim($val)]);
+            }else{
+                if(!empty($val)){
+                    $models = $models->andWhere(['like', $key, trim($val)]);
+                }
             }
+
         }
 
         //排序逻辑
