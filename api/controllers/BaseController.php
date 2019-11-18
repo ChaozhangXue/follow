@@ -163,7 +163,7 @@ class BaseController extends ActiveController
         $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where('1=1');
 
         foreach ($search as $key => $val){
-            if(empty($val) && $val !=0){
+            if(!empty($val) || $val ==0){
                 if($val == 0){
                     $models = $models->andWhere([$key=>trim($val)]);
                 }else{
