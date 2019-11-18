@@ -150,7 +150,6 @@ class BaseController extends ActiveController
     public function actionSearch()
     {
         $search = Yii::$app->request->post();
-        $search = array_filter($search);
 
         $pageNum = Yii::$app->request->get('page', '1');
         $pageSize = Yii::$app->request->get('per-page', '5');
