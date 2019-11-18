@@ -159,17 +159,15 @@ class BaseController extends ActiveController
 
         //分页的逻辑
         $org_model = $this->modelClass;
-        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where('1=1');
+        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
 
         foreach ($search as $key => $val){
-            if(!empty($val) || $val ==0){
-                if($val == 0){
-                    $models = $models->andWhere([$key=>trim($val)]);
-                }else{
-                    if(!empty($val)){
-                        $models = $models->andWhere(['like', $key, trim($val)]);
-                    }
-                }
+
+            if($val == ''){
+                continue;
+            }
+            if(!empty($val)){
+                $models = $models->andWhere(['like', $key, trim($val)]);
             }
         }
 
