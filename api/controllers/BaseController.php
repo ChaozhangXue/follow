@@ -163,8 +163,12 @@ class BaseController extends ActiveController
         $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
 
         foreach ($search as $key => $val){
-            if(!empty($val)){
-                $models = $models->andWhere(['like', $key, trim($val)]);
+            if($val == 0){
+                $models = $models->andWhere([$key=>trim($val)]);
+            }else{
+                if(!empty($val)){
+                    $models = $models->andWhere(['like', $key, trim($val)]);
+                }
             }
         }
 
