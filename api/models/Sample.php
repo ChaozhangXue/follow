@@ -49,6 +49,7 @@ class Sample extends \yii\db\ActiveRecord
             [['xiuhua_gongyi', 'source', 'inStock'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'color', 'width', 'kilo', 'minimum', 'xiuhua_suplier', 'dibu_suplier', 'design_time', 'dahuo_time', 'xiuxian_num', 'product_num', 'other_num', 'xiuhua_card_num'], 'string', 'max' => 50],
+            [['title', 'color', 'width', 'kilo'], 'unique', 'targetAttribute' => ['title', 'color', 'width', 'kilo']],
         ];
     }
 
@@ -80,6 +81,7 @@ class Sample extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
 
 
     public function extraFields() {

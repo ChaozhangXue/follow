@@ -17,7 +17,10 @@ class ClientController extends BaseController
      */
     public function actionGetLatest()
     {
-        $page_size = 5;
+        $page_size = Yii;
+        $page = Yii::$app->request->post('page');
+        $per_page = Yii::$app->request->post('per-page');
+
         $today = date("Y-m");
         $client_data = Client::find()->where("make_time like '$today%'")->orderBy('id desc')
             ->limit($page_size)->asArray()->all();
