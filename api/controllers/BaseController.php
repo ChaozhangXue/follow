@@ -160,7 +160,7 @@ class BaseController extends ActiveController
 
         //分页的逻辑
         $org_model = $this->modelClass;
-        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize);
+        $models = $org_model::find()->offset(($pageNum - 1) * $pageSize)->limit($pageSize)->where('1=1');
 
         foreach ($search as $key => $val){
             if($val == 0){
