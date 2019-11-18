@@ -25,7 +25,6 @@ class FileController extends Controller
 
         $upload_path = '/www/wwwroot/follow/backend/web/upload/' . date('Ymd');
         $url = 'http://file.change-word.com/upload/' . date('Ymd') . '/';
-
         if (!file_exists($upload_path)) {
             mkdir($upload_path, 0777, true);
         }
