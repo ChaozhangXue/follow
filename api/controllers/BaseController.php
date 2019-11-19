@@ -166,7 +166,7 @@ class BaseController extends ActiveController
             if($val == ''){
                 continue;
             }
-            if($val == 0){
+            if($val == "0"){
                 $models = $models->andWhere([$key=>trim($val)]);
             }else{
                 if(!empty($val)){
