@@ -37,7 +37,7 @@ class ClientController extends BaseController
         $follow_id = Yii::$app->request->post('follower_id');
         $follow_name = Yii::$app->request->post('follower_name');
         $client_id = Yii::$app->request->post('client_id');
-        $client_name = Yii::$app->request->post('client_name');
+//        $client_name = Yii::$app->request->post('client_name');
 
         $client = Client::find()->where(['id'=>$client_id])->one();
         if(empty($client)){
@@ -50,7 +50,7 @@ class ClientController extends BaseController
         $process = Process::find()->where(['client_id'=> $client_id])->one();
         if(empty($process)){
             $process = new Process();
-            $process->client_name = $client_name;
+            $process->client_name = $client->company_name;
             $process->client_id = $client_id;
         }
         $process->follow_id = $follow_id;
