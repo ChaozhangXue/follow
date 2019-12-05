@@ -37,6 +37,9 @@ class FileController extends Controller
             } else {
                 $name = time() . rand(0, 9999) . $ext;
 
+                if($_FILES['file']['size'] > 3 * 1024 * 1024) {
+                    return $this->error('图片大小大于3M');
+                }
                 if (file_exists($upload_path . '/' . $name)) {
                     return $this->success($url . $name);
                 } else {
